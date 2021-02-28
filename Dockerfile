@@ -15,9 +15,8 @@ RUN     \
 RUN     \
     apt-get install -y python3 python3-pip openssh-server && \
     apt-get clean && \
-    python3 -m pip install -U pip requests bs4 -i https://pypi.mirrors.ustc.edu.cn/simple/ && \
-    chmod +x /root/docker.sh
+    python3 -m pip install -U pip requests bs4 -i https://pypi.mirrors.ustc.edu.cn/simple/
 
 EXPOSE 22
 
-CMD [ "/bin/bash", "-c", "/root/docker.sh"]
+CMD [ "/bin/bash", "/root/docker.sh"]
