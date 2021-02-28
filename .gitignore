@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# bing
+bing.sh
+bing.json
+
+# data
+img
