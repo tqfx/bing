@@ -259,7 +259,7 @@ if __name__ == "__main__":
         pwd = 'img'
 
     bin(pwd)
-    while True:
+    while 3 > len(sys.argv):
         t1 = time.strftime("%H%M%S", time.localtime())
         if t1 == '000000':
             bin(pwd)
