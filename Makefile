@@ -21,4 +21,4 @@ install:
 	-$(python) -m pip install -U pip requests bs4
 
 clean:
-	-rm -rf bing.sh bing.json img
+	-rm -rf bing.sh bing.json run.sh img
