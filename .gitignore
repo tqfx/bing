@@ -129,8 +129,12 @@ dmypy.json
 .pyre/
 
 # bing
-bing.sh
-bing.json
+*.json
 
 # data
 img
+image
+
+# shell
+data.sh
+bing.sh
