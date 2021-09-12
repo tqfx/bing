@@ -1,32 +1,12 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding : utf-8 -*-
 import os
 import re
+import sys
 import time
 import json
-import sys
-
-try:
-    import requests
-    import urllib3
-except:
-    os.system("python3 -m pip install -U requests")
-    try:
-        import requests
-        import urllib3
-    except:
-        print("error:", "import requests")
-        exit()
-
-try:
-    from bs4 import BeautifulSoup
-except:
-    os.system("python3 -m pip install -U bs4")
-    try:
-        from bs4 import BeautifulSoup
-    except:
-        print("error:", "import bs4")
-        exit()
+import requests
+from bs4 import BeautifulSoup
 
 
 def get(url, i):
@@ -67,11 +47,11 @@ def get(url, i):
             if mark:
                 continue
 
-            src = div.a["href"]
-            src = re.findall("photo/([^?]*)", src)[0]
-            src = "https://cn.bing.com/th?id=OHR." + src + "_UHD.jpg"
+            url = div.a["href"]
+            url = re.findall("photo/([^?]*)", url)[0]
+            url = "https://cn.bing.com/th?id=OHR." + url + "_UHD.jpg"
 
-            inlist.append({"info": info, "date": date, "src": src})
+            inlist.append({"info": info, "date": date, "url": url})
 
         inlist = sorted(inlist, key=lambda img: img["date"], reverse=True)
         with open(data, "w", encoding="utf-8") as f:
@@ -92,8 +72,11 @@ def delay(i):
 if __name__ == "__main__":
     url = "https://bing.ioliu.cn/"
     data = "bing.json"
+    n = 0
+    if 1 < len(sys.argv):
+        n = eval(sys.argv[-1])
     i = 1
-    while i < 145:
+    while i < n + 1:
         if get(url, i):
             i += 1
             delay(5)
