@@ -15,7 +15,7 @@ RUN     \
 RUN     \
     apt-get install -y python3 python3-pip openssh-server && \
     apt-get clean && \
-    python3 -m pip install -U pip requests bs4 -i https://pypi.mirrors.ustc.edu.cn/simple/
+    python3 -m pip install -r requirements.txt -i https://pypi.mirrors.ustc.edu.cn/simple/
 
 EXPOSE 22
 
