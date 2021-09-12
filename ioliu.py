@@ -9,11 +9,12 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get(url, i):
+def get(i, datename):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36"
     }  # set up user-agent
 
+    url = "https://bing.ioliu.cn/"
     params = {"p": str(i)}  # set up parameters
 
     r = requests.get(
@@ -22,17 +23,16 @@ def get(url, i):
 
     print("log:", r.url, r.status_code)  # show status
 
-    if r.status_code == 200:  # requests successful
-        dirlist = os.listdir(".")  # search the data file
-        if data in dirlist:
-            with open(data, "r", encoding="utf-8") as f:
-                inlist = json.load(f)
+    if 200 == r.status_code:  # requests successful
+        if os.path.exists(dataname):
+            with open(datename, "r", encoding="utf-8") as f:
+                items = json.load(f)
         else:
-            inlist = []
+            items = []
 
         soup = BeautifulSoup(r.text, "html.parser")
-        itemlist = soup.find_all("div", class_="item")  # searuch the items
-        for div in itemlist:
+        divs = soup.find_all("div", class_="item")  # searuch the items
+        for div in divs:
             info = div.h3.text
 
             date = div.em.text
@@ -40,8 +40,8 @@ def get(url, i):
 
             # finding duplicate
             mark = False
-            for img in inlist:
-                if date in img["date"]:
+            for item in items:
+                if date in item["date"]:
                     mark = True
                     break
             if mark:
@@ -51,11 +51,11 @@ def get(url, i):
             url = re.findall("photo/([^?]*)", url)[0]
             url = "https://cn.bing.com/th?id=OHR." + url + "_UHD.jpg"
 
-            inlist.append({"info": info, "date": date, "url": url})
+            items.append({"date": date, "info": info, "url": url})
 
-        inlist = sorted(inlist, key=lambda img: img["date"], reverse=True)
-        with open(data, "w", encoding="utf-8") as f:
-            json.dump(inlist, f)
+        items.sort(key=lambda x: x["date"], reverse=True)
+        with open(datename, "w", encoding="utf-8") as f:
+            json.dump(items, f)
 
         return True
 
@@ -70,14 +70,20 @@ def delay(i):
 
 
 if __name__ == "__main__":
-    url = "https://bing.ioliu.cn/"
-    data = "bing.json"
+
     n = 0
     if 1 < len(sys.argv):
-        n = eval(sys.argv[-1])
+        n = eval(sys.argv[1])
+    dataname = "bing.json"
+    if 2 < len(sys.argv):
+        dataname = sys.argv[2]
+
     i = 1
-    while i < n + 1:
-        if get(url, i):
+    while True:
+        state = get(i, dataname)
+        if i > n - 1:
+            break
+        if state:
             i += 1
             delay(5)
         else:

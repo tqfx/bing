@@ -97,9 +97,11 @@ class bing:
 
 if "__main__" == __name__:
     datename = "data.json"
+    if 1 < len(sys.argv):
+        datename = sys.argv[1]
     b = bing(datename)
     b.load()
     b.api(0, 7).api(8, 8).sort()
     b.dump()
-    if 1 < len(sys.argv):
-        b.download(sys.argv[-1])
+    if 2 < len(sys.argv):
+        b.download(sys.argv[2])

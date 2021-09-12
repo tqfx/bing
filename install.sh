@@ -3,7 +3,7 @@ outfile=run.sh
 tmpfile=$(date +%Y%m%d%H%M%S)
 echo '#!'$(which bash) > $outfile
 echo 'cd '$(pwd) >> $outfile
-echo $(which python3)" bing.py $1 img" >> $outfile
+echo $(which python3)" bing.py" >> $outfile
 chmod +x $outfile
 
 tasktxt='1 0 * * * '"$(pwd)/$outfile"
@@ -14,4 +14,3 @@ echo "$tasktxt" >> $tmpfile
 crontab $tmpfile
 rm -f $tmpfile
 crontab -l
-
