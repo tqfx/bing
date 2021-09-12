@@ -89,7 +89,7 @@ class bing:
             filename = prefix + '/' + item["date"] + '.jpg'
             if os.path.exists(filename):
                 continue
-            print(item["date"], "downloading...", end='\r')
+            print("downloading...", end='\r')
             if self.get(item["url"], filename):
                 print(item["date"], os.path.getsize(filename))
         return self
