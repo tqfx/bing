@@ -15,8 +15,11 @@ headers = {
 class bing:
     origin = "https://cn.bing.com/HPImageArchive.aspx"
 
+    namedata = ".data.json"
     items = []
     dates = []
+
+    namew404 = ".w404.json"
     w404 = []
     t404 = []
 
@@ -26,8 +29,8 @@ class bing:
             os.mkdir(self.prefix)
 
     def load(self):
-        if os.path.exists(self.prefix + "/.w404.json"):
-            with open(self.prefix + "/.w404.json", "r", encoding="utf-8") as f:
+        if os.path.exists(self.prefix + '/' + self.namew404):
+            with open(self.prefix + '/' + self.namew404, "r", encoding="utf-8") as f:
                 items = json.load(f)
             for item in items:
                 date = item["date"]
@@ -35,8 +38,8 @@ class bing:
                     continue
                 self.t404.append(date)
                 self.w404.append(item)
-        if os.path.exists(self.prefix + "/.data.json"):
-            with open(self.prefix + "/.data.json", "r", encoding="utf-8") as f:
+        if os.path.exists(self.prefix + '/' + self.namedata):
+            with open(self.prefix + '/' + self.namedata, "r", encoding="utf-8") as f:
                 items = json.load(f)
             for item in items:
                 date = item["date"]
@@ -48,13 +51,13 @@ class bing:
 
     def dump(self):
         self.items.sort(key=lambda x: x['date'], reverse=True)
-        with open(self.prefix + "/.data.json", "w", encoding="utf-8") as f:
+        with open(self.prefix + '/' + self.namedata, "w", encoding="utf-8") as f:
             json.dump(self.items, f)
         return self
 
     def werr(self):
         self.w404.sort(key=lambda x: x['date'], reverse=True)
-        with open(self.prefix + "/.w404.json", "w", encoding="utf-8") as f:
+        with open(self.prefix + '/' + self.namew404, "w", encoding="utf-8") as f:
             json.dump(self.w404, f)
         return self
 
@@ -75,6 +78,8 @@ class bing:
                 print(date, info)
         except urllib.error.HTTPError as e:
             print(e.code, e.url)
+        except urllib.error.URLError as e:
+            print(e)
         except Exception as e:
             print(e)
         return self
@@ -118,13 +123,13 @@ class bing:
 
 
 if "__main__" == __name__:
+    argc = len(sys.argv)
     prefix = "image"
-    if 1 < len(sys.argv):
+    if 1 < argc:
         prefix = sys.argv[1]
     b = bing(prefix)
     b.load()
     b.api(0, 7).api(8, 8)
-    b.dump()
-    if 1 < len(sys.argv):
+    if 1 < argc:
         b.download()
     b.dump()

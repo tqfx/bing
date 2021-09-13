@@ -7,9 +7,10 @@ import json
 data = "bing.json"
 prefix = "image"
 
-if 1 < len(sys.argv):
+argc = len(sys.argv)
+if 1 < argc:
     data = sys.argv[1]
-if 2 < len(sys.argv):
+if 2 < argc:
     prefix = sys.argv[2]
 
 with open(data, "r", encoding="utf-8") as f:
@@ -19,7 +20,7 @@ with open(data, "w", encoding="utf-8") as f:
     json.dump(items, f)
 
 with open(os.path.splitext(data)[0] + ".sh", "wb") as f:
-    cmd = "#!/usr/bin/env bash\nmkdir " + prefix + "\n"
+    cmd = "#!/usr/bin/env bash\nmkdir -p " + prefix + "\n"
     f.write(cmd.encode("utf-8"))
     for item in items:
         url = ' -c "' + item["url"] + '"'

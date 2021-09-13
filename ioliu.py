@@ -24,11 +24,10 @@ def get(i, datename):
     print("log:", r.url, r.status_code)  # show status
 
     if 200 == r.status_code:  # requests successful
+        items = []
         if os.path.exists(dataname):
             with open(datename, "r", encoding="utf-8") as f:
                 items = json.load(f)
-        else:
-            items = []
 
         soup = BeautifulSoup(r.text, "html.parser")
         divs = soup.find_all("div", class_="item")  # searuch the items
@@ -70,12 +69,13 @@ def delay(i):
 
 
 if __name__ == "__main__":
+    argc = len(sys.argv)
 
     n = 0
-    if 1 < len(sys.argv):
+    if 1 < argc:
         n = eval(sys.argv[1])
     dataname = "bing.json"
-    if 2 < len(sys.argv):
+    if 2 < argc:
         dataname = sys.argv[2]
 
     i = 1
