@@ -4,7 +4,7 @@ all:
 	-$(python) ioliu.py 170
 	-$(python) json2sh.py
 	-bash bing.sh
-	-$(python) rm.py
+	-$(python) rmsame.py
 	-$(python) bing.py
 
 .PHONY: install test clean
