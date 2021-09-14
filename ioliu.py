@@ -8,7 +8,6 @@ import json
 import requests
 from bs4 import BeautifulSoup
 
-
 def get(i, datename):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36"
@@ -61,12 +60,10 @@ def get(i, datename):
     else:
         return False
 
-
 def delay(i):
     for j in range(i):
         print(str(i - j), end="\r")
         time.sleep(1)
-
 
 if __name__ == "__main__":
     argc = len(sys.argv)

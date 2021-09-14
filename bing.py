@@ -11,23 +11,19 @@ headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36"
 }
 
-
 class bing:
     origin = "https://cn.bing.com/HPImageArchive.aspx"
-
     namedata = ".data.json"
     items = []
     dates = []
-
     namew404 = ".w404.json"
     w404 = []
     t404 = []
-
     def __init__(self, prefix) -> None:
         self.prefix = os.path.relpath(prefix)
         if not os.path.exists(self.prefix):
             os.mkdir(self.prefix)
-
+        return
     def load(self):
         if os.path.exists(self.prefix + '/' + self.namew404):
             with open(self.prefix + '/' + self.namew404, "r", encoding="utf-8") as f:
@@ -48,19 +44,16 @@ class bing:
                 self.dates.append(date)
                 self.items.append(item)
         return self
-
     def dump(self):
         self.items.sort(key=lambda x: x['date'], reverse=True)
         with open(self.prefix + '/' + self.namedata, "w", encoding="utf-8") as f:
             json.dump(self.items, f)
         return self
-
     def werr(self):
         self.w404.sort(key=lambda x: x['date'], reverse=True)
         with open(self.prefix + '/' + self.namew404, "w", encoding="utf-8") as f:
             json.dump(self.w404, f)
         return self
-
     def api(self, idx, n):
         params = {"format": "js", "idx": str(idx), "n": str(n)}
         url = self.origin + '?' + urllib.parse.urlencode(params)
@@ -83,7 +76,6 @@ class bing:
         except Exception as e:
             print(e)
         return self
-
     def info(self, info):
         info = info.split("©")[0]
         if "(" == info[-1]:
@@ -93,7 +85,6 @@ class bing:
         while " " == info[-1]:
             info = info[:-1:]
         return info.replace('/', urllib.parse.quote('/', ''))
-
     def get(self, item, filename):
         state = False
         try:
@@ -109,7 +100,6 @@ class bing:
         except Exception as e:
             print(e)
         return state
-
     def download(self):
         for item in self.items:
             filename = self.prefix + '/' + item["date"] + '.jpg'
@@ -120,7 +110,6 @@ class bing:
                 print(filename)
         self.werr()
         return self
-
 
 if "__main__" == __name__:
     argc = len(sys.argv)
