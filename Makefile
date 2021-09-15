@@ -17,7 +17,7 @@ install:
 
 format:
 	@-find $^ -regex '.*\.\(cpp\|hpp\|cu\|c\|h\)' -exec clang-format --verbose -style=file -i {} \;
-	@-black --pyi -S $(shell find $^ -regex '.*\.\(py\)')
+	@-black -S $(shell find $^ -regex '.*\.\(py\)')
 
 test:
 	-kill -9 `pgrep -f bing.py`

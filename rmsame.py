@@ -8,6 +8,7 @@ flag_remove = 1
 flag_rename_size = 1
 flag_remove_empty = 1
 
+
 def run(pwd):
     removeset = set()
 
@@ -95,6 +96,7 @@ def run(pwd):
             if flag_rename:
                 os.rename(filelist[i], renamelist[i])
                 print(renamelist[i], '<-', filelist[i])
+
 
 for pwd in sys.argv[1:]:
     run(pwd)
