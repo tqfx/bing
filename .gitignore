@@ -185,6 +185,7 @@ dmypy.json
 # Cython
 *_cy.*
 !*_cy.pyx
+!*_cy.pxi
 !*_cy.pxd
 
 # bing
